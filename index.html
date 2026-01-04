@@ -631,11 +631,19 @@ BLOSSOM_URL=https://swarm123.zeabur.app (use your actual deployed URL)
             </div>
             
             <div class="section">
-                <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                <div class="collapsible-header expanded" onclick="toggleCollapsible(this)">
                     <h2>✅ Step 3: Verify Deployment</h2>
                     <span class="collapsible-toggle">▼</span>
                 </div>
-                <div class="collapsible-content">
+                <div class="collapsible-content expanded">
+                    <div class="video-wrapper">
+                        <iframe src="public/verify_deploy.mp4" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                allowfullscreen
+                                referrerpolicy="strict-origin-when-cross-origin">
+                        </iframe>
+                    </div>
                     <ul class="checklist">
                         <li>Check deployment logs for any errors</li>
                         <li>Visit your deployed application URL</li>

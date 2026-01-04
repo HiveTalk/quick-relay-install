@@ -317,6 +317,39 @@
             color: #6c757d;
         }
         
+        .collapsible-header {
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+        
+        .collapsible-header:hover {
+            opacity: 0.8;
+        }
+        
+        .collapsible-toggle {
+            font-size: 0.8em;
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+        
+        .collapsible-header.expanded .collapsible-toggle {
+            transform: rotate(180deg);
+        }
+        
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .collapsible-content.expanded {
+            max-height: 2000px;
+        }
+        
         @media print {
             body {
                 background: white;
@@ -333,6 +366,14 @@
             
             .theme-toggle {
                 display: none;
+            }
+            
+            .collapsible-content {
+                max-height: none !important;
+            }
+            
+            .collapsible-toggle {
+                display: none !important;
             }
         }
     </style>
@@ -358,13 +399,18 @@
             </div>
 
             <div class="section">
-                <h2>📋 Prerequisites</h2>
-                <ul class="checklist">
-                    <li>Zeabur account (sign up at <a href="https://zeabur.com" target="_blank">zeabur.com</a>)</li>
-                    <li>GitHub account</li>
-                    <li>Basic understanding of environment variables</li>
-                    <li>A domain with Nostr.json configured (or use the built in relay one)</li>
-                </ul>
+                <div class="collapsible-header expanded" onclick="toggleCollapsible(this)">
+                    <h2>📋 Prerequisites</h2>
+                    <span class="collapsible-toggle">▼</span>
+                </div>
+                <div class="collapsible-content expanded">
+                    <ul class="checklist">
+                        <li>Zeabur account (sign up at <a href="https://zeabur.com" target="_blank">zeabur.com</a>)</li>
+                        <li>GitHub account</li>
+                        <li>Basic understanding of environment variables</li>
+                        <li>A domain with Nostr.json configured (or use the built in relay one)</li>
+                    </ul>
+                </div>
             </div>
 
         <div class="content">
@@ -381,189 +427,236 @@
             </div>
                         
             <div class="section">
-                <h2>🎯 Step 1: Initial Deployment</h2>
-                <div class="video-wrapper">
-                    <iframe src="public/setup-project.mp4"
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                            allowfullscreen
-                            referrerpolicy="strict-origin-when-cross-origin">
-                    </iframe>
+                <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                    <h2>🎯 Step 1: Initial Deployment</h2>
+                    <span class="collapsible-toggle">▼</span>
                 </div>
-                <ul class="checklist">
-                    <li>Go to your Zeabur dashboard</li>
-                    <li>Click "Create New Project"</li>
-                    <li>Select "Deploy from GitHub"</li>
-                    <li>Enter repository URL: <code>https://github.com/HiveTalk/swarm.git</code></li>
-                    <li>Click "Deploy" with default settings</li>
-                    <li>Wait for initial deployment to complete</li>
-                </ul>
-                
-                <div class="info">
-                    <strong>ℹ️ Note:</strong> The initial deployment uses Badger DB and filesystem for Blossom media storage. This is fine for testing but should be configured for production use.
+                <div class="collapsible-content">
+                    <div class="video-wrapper">
+                        <iframe src="public/setup-project.mp4"
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                allowfullscreen
+                                referrerpolicy="strict-origin-when-cross-origin">
+                        </iframe>
+                    </div>
+                    <ul class="checklist">
+                        <li>Go to your Zeabur dashboard</li>
+                        <li>Click "Create New Project"</li>
+                        <li>Select "Deploy from GitHub"</li>
+                        <li>Enter repository URL: <code><a href="https://github.com/HiveTalk/swarm.git">https://github.com/HiveTalk/swarm.git</a></code></li>
+                        <li>Click "Deploy" with default settings</li>
+                        <li>Wait for initial deployment to complete</li>
+                    </ul>
+                    
+                    <div class="info">
+                        <strong>ℹ️ Note:</strong> The initial deployment uses Badger DB and filesystem for Blossom media storage. This is fine for testing but should be configured for production use.
+                    </div>
                 </div>
             </div>
             
             <div class="section">
-                <h2>⚙️ Step 2: Configure Essential Environment Variables</h2>
-                
-                <video width="100%" height="500" controls>
-                    <source src="public/variables.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
+                <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                    <h2>⚙️ Step 2: Configure Essential Environment Variables</h2>
+                    <span class="collapsible-toggle">▼</span>
+                </div>
+                <div class="collapsible-content">
+                    <video width="100%" height="500" controls>
+                        <source src="public/variables.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
 
-                <ul class="checklist">
-                    <li>Navigate to your Zeabur Project dashboard</li>
-                    <li>Click on your deployed service</li>
-                    <li>Go to "Variables" or "Environment" tab</li>
-                    <li>Add/update the following required variables:</li>
-                </ul>
-                
-                <div class="env-vars">
-                    <h3>Required Variables:</h3>
-                    <div class="code-block">
-<code>
-RELAY_NAME="Your Relay Name"
+                    <ul class="checklist">
+                        <li>Navigate to your Zeabur Project dashboard</li>
+                        <li>Click on your deployed service</li>
+                        <li>Go to "Variables" or "Environment" tab</li>
+                        <li>Add/update the following required variables:</li>
+                    </ul>
+                    
+                    <div class="env-vars">
+                        <h3>Required Variables:</h3>
+                        <div class="code-block"><code>RELAY_NAME="Your Relay Name"
 RELAY_PUBKEY="your_relay_public_key_here"
 NPUB_DOMAIN="yourdomain.com" # optional if you have it, if not leave blank.
 </code>
+                        </div>
                     </div>
-                </div>
-                
-                <div class="warning">
-                    <strong>⚠️ Important:</strong> The <code>NPUB_DOMAIN</code> should match your domain and reference the <code>/.well-known/nostr.json</code> file to indicate which users have access.
-                </div>
-                                <ul class="checklist">
-                    <li>Click "Save" or "Update" after adding variables</li>
-                    <li>Trigger a redeploy from the dashboard</li>
-                </ul>
-
-                
-                <div class="info">
-                    <strong>🔧 Don't have a domain with nostr.json yet?</strong> 
-                    <p>You can set up a NIP-05 service either 
-                    with the built in one on the relay or set up your own  <a href="https://github.com/bitkarrot/nip05-service.git" target="_blank">nip05-service repository</a>. 
-                    </p>
-                    <br/>
-                     <strong> Here's how to Configure nostr.json on the relay</strong> 
-                    <p> First, set a volume for the relay to save the nostr.json file, in case we redeploy.
-                        Second, visit the dashboard to add or remove users from the nostr.json file.
-                        Only the relay pubkey is able to login to make the changes for this setup.
-                    </p>
-                    <div class="video-wrapper">
-                    <iframe src="public/set_volume_nostrjson.mp4"
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                            allowfullscreen
-                            referrerpolicy="strict-origin-when-cross-origin">
-                    </iframe>
+                    
+                    <div class="warning">
+                        <strong>⚠️ Important:</strong> The <code>NPUB_DOMAIN</code> should match your domain and reference the <code>/.well-known/nostr.json</code> file to indicate which users have access.
                     </div>
-                </div>
+                                    <ul class="checklist">
+                        <li>Click "Save" or "Update" after adding variables</li>
+                        <li>Trigger a redeploy from the dashboard</li>
+                    </ul>
 
-                <h3>Setup Public Domain</h3>
-                <img src="public/domain-zeabur.png" alt="Domain Setup" style="max-width: 100%; height: auto;">
-                <ul class="checklist">
-                    <li>Navigate to the "Networking" tab in your service dashboard</li>
-                    <li>Verify the port is set to <code>3334</code> (HTTP)</li>
-                    <li>Under "Public" section, click "Generate Domain" for an automatic domain, or click "Custom Domain" to use your own</li>
-                    <li>Wait for the domain to be activated</li>
-                </ul>
-                
-                <div class="info">
-                    <strong>💡 Domain Setup:</strong> Your relay needs a publicly accessible domain to function. Zeabur can generate one automatically (e.g., swarm123.zeabur.app) or you can configure your own custom domain.
-                    <div style="margin-top: 10px; text-align: center;">
-                        <img src="https://raw.githubusercontent.com/user-attachments/assets/networking-tab-example.png" alt="Zeabur Networking Tab" style="max-width: 100%; border-radius: 8px; border: 1px solid #3f3f46;" onerror="this.style.display='none'">
+                    
+                    <div class="info">
+                        <strong>🔧 Don't have a domain with nostr.json yet?</strong> 
+                        <p>You can set up a NIP-05 service either 
+                        with the built in one on the relay or set up your own  <a href="https://github.com/bitkarrot/nip05-service.git" target="_blank">nip05-service repository</a>. 
+                        </p>
+                        <br/>
+                         <strong> Here's how to Configure nostr.json on the relay</strong> 
+                        <p> First, set a volume for the relay to save the nostr.json file, in case we redeploy.
+                            Second, visit the dashboard to add or remove users from the nostr.json file.
+                            Only the relay pubkey is able to login to make the changes for this setup.
+                        </p>
+                        <div class="video-wrapper">
+                        <iframe src="public/set_volume_nostrjson.mp4"
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                allowfullscreen
+                                referrerpolicy="strict-origin-when-cross-origin">
+                        </iframe>
+                        </div>
+                    </div>
+
+                    <h3>Setup Public Domain</h3>
+                    <img src="public/domain-zeabur.png" alt="Domain Setup" style="max-width: 100%; height: auto;">
+                    <ul class="checklist">
+                        <li>Navigate to the "Networking" tab in your service dashboard</li>
+                        <li>Verify the port is set to <code>3334</code> (HTTP)</li>
+                        <li>Under "Public" section, click "Generate Domain" for an automatic domain, or click "Custom Domain" to use your own</li>
+                        <li>Wait for the domain to be activated</li>
+                    </ul>
+                    
+                    <div class="info">
+                        <strong>💡 Domain Setup:</strong> Your relay needs a publicly accessible domain to function. Zeabur can generate one automatically (e.g., swarm123.zeabur.app) or you can configure your own custom domain.
+                        <div style="margin-top: 10px; text-align: center;">
+                            <img src="https://raw.githubusercontent.com/user-attachments/assets/networking-tab-example.png" alt="Zeabur Networking Tab" style="max-width: 100%; border-radius: 8px; border: 1px solid #3f3f46;" onerror="this.style.display='none'">
+                        </div>
                     </div>
                 </div>
             </div>
             
             <div class="section">
-                <h2>🗄️ Optional: Database Configuration</h2>
-                <p>Best for production use, consider upgrading from the default Badger DB:</p>
-                
-                <h3>Option A: Zeabur PostgreSQL (Recommended for beginners)</h3>
-                <ul class="checklist">
-                    <li>In your Zeabur project, click "Add Service"</li>
-                    <li>Select "PostgreSQL" from the marketplace</li>
-                    <li>Wait for PostgreSQL to provision</li>
-                    <li>Zeabur will automatically inject database connection variables</li>
-                    <li>Redeploy your application</li>
-                </ul>
-                
-                <h3>Option B: External PostgreSQL (Neon.com)</h3>
-                <ul class="checklist">
-                    <li>Sign up at <a href="https://neon.tech" target="_blank">neon.tech</a></li>
-                    <li>Create a new database</li>
-                    <li>Copy the connection string</li>
-                    <li>Add <code>DATABASE_URL</code> to your Zeabur environment variables</li>
-                    <li>Redeploy your application</li>
-                </ul>
+                <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                    <h2>🗄️ Optional: Database Configuration</h2>
+                    <span class="collapsible-toggle">▼</span>
+                </div>
+                <div class="collapsible-content">
+                    <p>Best for production use, consider upgrading from the default Badger DB:</p>
+                    
+                    <h3>Option A: Zeabur PostgreSQL (Recommended for beginners)</h3>
+                    <ul class="checklist">
+                        <li>In your Zeabur project, click "Add Service"</li>
+                        <li>Select "PostgreSQL" from the marketplace</li>
+                        <li>Wait for PostgreSQL to provision</li>
+                        <li>Zeabur will automatically inject database connection variables, if issues chat with Zeabur's AI assistant
+                                                        Also see guide for details here: 
+                            <a href="https://github.com/HiveTalk/swarm/blob/zeabur-dashboard/ENV_CONFIG_GUIDE.md#-configuration-details" target="_blank">ENV_CONFIG_GUIDE.md</a>
+
+                        </li>
+                        <li>Redeploy your application</li>
+                    </ul>
+                    
+                    <h3>Option B: External PostgreSQL (Neon.com)</h3>
+                    <ul class="checklist">
+                        <li>Sign up at <a href="https://neon.tech" target="_blank">neon.tech</a></li>
+                        <li>Create a new database</li>
+                        <li>Copy the connection string</li>
+                        <li> 
+                            Update Zeabur environment variables. 
+                            Also see guide for details here: 
+                            <a href="https://github.com/HiveTalk/swarm/blob/zeabur-dashboard/ENV_CONFIG_GUIDE.md#-configuration-details" target="_blank">ENV_CONFIG_GUIDE.md</a>
+
+                            <div class="code-block">
+                            <code>
+     DB_ENGINE=postgres
+     DATABASE_URL=postgres://user:pass@host:5432/db?sslmode=disable
+                                </code>    
+                                </div>
+                        </li>
+                        <li>Redeploy your application</li>
+                    </ul>
+                </div>
             </div>
             
             <div class="section">
-                <h2>📦 Optional: S3 Storage Configuration</h2>
-                <p>Replace filesystem storage with S3-compatible storage for Blossom media:</p>
-                
-                <h3>Using Tigris Data</h3>
-                <ul class="checklist">
-                    <li>Sign up at <a href="https://www.tigrisdata.com" target="_blank">tigrisdata.com</a></li>
-                    <li>Create a new bucket</li>
-                    <li>Generate access credentials, make sure you have write access granted to the bucket</li>
-                    <li>Add S3 configuration to Zeabur environment variables:</li>
-                </ul>
-                
-                <div class="code-block">
-                    <code>
+                <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                    <h2>📦 Optional: S3 Storage Configuration</h2>
+                    <span class="collapsible-toggle">▼</span>
+                </div>
+                <div class="collapsible-content">
+                    <p>Replace filesystem storage with S3-compatible storage for Blossom media:</p>
+                    
+                    <h3>Using Tigris Data</h3>
+                    <ul class="checklist">
+                        <li>Sign up at <a href="https://www.tigrisdata.com" target="_blank">tigrisdata.com</a></li>
+                        <li>Create a new bucket</li>
+                        <li>Generate access credentials, make sure you have write access granted to the bucket</li>
+                        <li>Add S3 configuration to Zeabur environment variables:
+                            Also see guide for details here: 
+                            <a href="https://github.com/HiveTalk/swarm/blob/zeabur-dashboard/ENV_CONFIG_GUIDE.md#-configuration-details" target="_blank">ENV_CONFIG_GUIDE.md</a>
+
+
+                        </li>
+                    </ul>
+                    
+                    <div class="code-block">
+                        <code>
 S3_ENDPOINT="your_s3_endpoint"
 S3_BUCKET="your_bucket_name"
 S3_ACCESS_KEY="your_access_key"
 S3_SECRET_KEY="your_secret_key"
                 </code>
-                </div>
-                
-                <ul class="checklist">
-                    <li> Also remember to update Blossom configuration:
-                    </li>
-                </ul>
-                          <div class="code-block">
-                            <code>
+                    </div>
+                    
+                    <ul class="checklist">
+                        <li> Also remember to update Blossom configuration:
+                        </li>
+                    </ul>
+                              <div class="code-block">
+                                <code>
 BLOSSOM_ENABLED=true
 BLOSSOM_URL=https://swarm123.zeabur.app (use your actual deployed URL)
-                            </code>
-                          </div>
-                <ul class="checklist">
-                    <li>Save variables and redeploy</li>
-                </ul>
-                
-                <div class="info">
-                    <strong>💡 Pro Tip:</strong> Zeabur's AI assistant can guide you through setting up PostgreSQL and S3 storage directly in the dashboard!
+                                </code>
+                              </div>
+                    <ul class="checklist">
+                        <li>Save variables and redeploy</li>
+                    </ul>
+                    
+                    <div class="info">
+                        <strong>💡 Pro Tip:</strong> Zeabur's AI assistant can guide you through setting up PostgreSQL and S3 storage directly in the dashboard!
+                    </div>
                 </div>
             </div>
             
             <div class="section">
-                <h2>✅ Step 3: Verify Deployment</h2>
-                <ul class="checklist">
-                    <li>Check deployment logs for any errors</li>
-                    <li>Visit your deployed application URL</li>
-                    <li>Verify relay name and description appear correctly</li>
-                    <li>Test basic functionality</li>
-                    <li>Confirm user access via <code>/.well-known/nostr.json</code></li>
-                </ul>
-                
-                <div class="success">
-                    <strong>🎉 Success!</strong> Your Swarm Nostr relay is now deployed and configured on Zeabur!
+                <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                    <h2>✅ Step 3: Verify Deployment</h2>
+                    <span class="collapsible-toggle">▼</span>
+                </div>
+                <div class="collapsible-content">
+                    <ul class="checklist">
+                        <li>Check deployment logs for any errors</li>
+                        <li>Visit your deployed application URL</li>
+                        <li>Verify relay name and description appear correctly</li>
+                        <li>Test basic functionality</li>
+                        <li>Confirm user access via <code>/.well-known/nostr.json</code></li>
+                    </ul>
+                    
+                    <div class="success">
+                        <strong>🎉 Success!</strong> Your Swarm Nostr relay is now deployed and configured on Zeabur!
+                    </div>
                 </div>
             </div>
             
             <div class="section">
-                <h2>🔗 Useful Resources</h2>
-                <ul class="checklist">
-                    <li><a href="https://github.com/HiveTalk/swarm" target="_blank">HiveTalk Swarm GitHub Repository</a></li>
-                    <li><a href="https://github.com/bitkarrot/nip05-service.git" target="_blank">NIP-05 Service (for nostr.json setup)</a></li>
-                    <li><a href="https://zeabur.com/docs" target="_blank">Zeabur Documentation</a></li>
-                    <li><a href="https://neon.tech" target="_blank">Neon PostgreSQL</a></li>
-                    <li><a href="https://www.tigrisdata.com" target="_blank">Tigris Data S3 Storage</a></li>
-                </ul>
+                <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                    <h2>🔗 Useful Resources</h2>
+                    <span class="collapsible-toggle">▼</span>
+                </div>
+                <div class="collapsible-content">
+                    <ul class="checklist">
+                        <li><a href="https://github.com/HiveTalk/swarm" target="_blank">HiveTalk Swarm GitHub Repository</a></li>
+                        <li><a href="https://github.com/bitkarrot/nip05-service.git" target="_blank">NIP-05 Service (for nostr.json setup)</a></li>
+                        <li><a href="https://zeabur.com/docs" target="_blank">Zeabur Documentation</a></li>
+                        <li><a href="https://neon.tech" target="_blank">Neon PostgreSQL</a></li>
+                        <li><a href="https://www.tigrisdata.com" target="_blank">Tigris Data S3 Storage</a></li>
+                    </ul>
+                </div>
             </div>
             
             <div class="section">
@@ -582,7 +675,7 @@ BLOSSOM_URL=https://swarm123.zeabur.app (use your actual deployed URL)
         </div>
         
         <footer>
-            <p>📄 HiveTalk Swarm v0.0.8+ | Deployment Guide for Zeabur</p>
+            <p>📄  <a href="https://github.com/HiveTalk/swarm.git"> HiveTalk Swarm v0.0.9+ </a>| <a href="https://github.com/bitkarrot/quick-relay-install/">Deployment Guide for Zeabur</a></p>
             <p style="margin-top: 5px; font-size: 0.85em;">For support, visit the GitHub repository or Zeabur community</p>
         </footer>
     </div>
@@ -633,6 +726,20 @@ BLOSSOM_URL=https://swarm123.zeabur.app (use your actual deployed URL)
                     }
                 });
             });
+        }
+        
+        // Collapsible functionality
+        function toggleCollapsible(header) {
+            const content = header.nextElementSibling;
+            const isExpanded = header.classList.contains('expanded');
+            
+            if (isExpanded) {
+                header.classList.remove('expanded');
+                content.classList.remove('expanded');
+            } else {
+                header.classList.add('expanded');
+                content.classList.add('expanded');
+            }
         }
         
         // Load saved theme preference and initialize checklist

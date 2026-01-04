@@ -469,7 +469,7 @@
                     <ul class="checklist">
                         <li>Navigate to your Zeabur Project dashboard</li>
                         <li>Click on your deployed service</li>
-                        <li>Go to "Variables" or "Environment" tab</li>
+                        <li>Go to "Variables" tab</li>
                         <li>Add/update the following required variables:</li>
                     </ul>
                     
@@ -513,7 +513,15 @@ NPUB_DOMAIN="yourdomain.com" # optional if you have it, if not leave blank.
                     </div>
 
                     <h3>Setup Public Domain</h3>
-                    <img src="public/domain-zeabur.png" alt="Domain Setup" style="max-width: 100%; height: auto;">
+                    <p> You Must setup a domain for your relay to function. </p>
+                <div class="video-wrapper">
+                    <iframe src="public/zeabur-set-a-domain-name.mp4" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen
+                            referrerpolicy="strict-origin-when-cross-origin">
+                    </iframe>
+                </div>
                     <ul class="checklist">
                         <li>Navigate to the "Networking" tab in your service dashboard</li>
                         <li>Verify the port is set to <code>3334</code> (HTTP)</li>
@@ -523,6 +531,7 @@ NPUB_DOMAIN="yourdomain.com" # optional if you have it, if not leave blank.
                     
                     <div class="info">
                         <strong>💡 Domain Setup:</strong> Your relay needs a publicly accessible domain to function. Zeabur can generate one automatically (e.g., swarm123.zeabur.app) or you can configure your own custom domain.
+                        
                         <div style="margin-top: 10px; text-align: center;">
                             <img src="https://raw.githubusercontent.com/user-attachments/assets/networking-tab-example.png" alt="Zeabur Networking Tab" style="max-width: 100%; border-radius: 8px; border: 1px solid #3f3f46;" onerror="this.style.display='none'">
                         </div>

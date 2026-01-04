@@ -355,15 +355,6 @@
                      and sync media between relays via an embedded bouquet client. Works with any Nostr client. Includes a link to the 
                     Curator client to help quickly check relay content and post kind 1 notes.</p>
                 
-                <div class="video-section" style="margin-top: 25px;">
-                    <h3 style="text-align: center; margin-bottom: 15px;">🎥 Swarm Relay Demo</h3>
-                    <div class="video-wrapper">
-                        <video controls style="width: 100%; max-width: 800px; margin: 0 auto; display: block;">
-                            <source src="public/overview.mp4" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                    </div>
-                </div>
             </div>
 
             <div class="section">
@@ -372,7 +363,7 @@
                     <li>Zeabur account (sign up at <a href="https://zeabur.com" target="_blank">zeabur.com</a>)</li>
                     <li>GitHub account</li>
                     <li>Basic understanding of environment variables</li>
-                    <li>A domain with Nostr.json configured (required - see NIP-05 service below if you don't have one)</li>
+                    <li>A domain with Nostr.json configured (or use the built in relay one)</li>
                 </ul>
             </div>
 
@@ -391,6 +382,14 @@
                         
             <div class="section">
                 <h2>🎯 Step 1: Initial Deployment</h2>
+                <div class="video-wrapper">
+                    <iframe src="public/setup-project.mp4"
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen
+                            referrerpolicy="strict-origin-when-cross-origin">
+                    </iframe>
+                </div>
                 <ul class="checklist">
                     <li>Go to your Zeabur dashboard</li>
                     <li>Click "Create New Project"</li>
@@ -423,26 +422,44 @@
                 <div class="env-vars">
                     <h3>Required Variables:</h3>
                     <div class="code-block">
-<code>NPUB_DOMAIN="yourdomain.com"
+<code>
 RELAY_NAME="Your Relay Name"
 RELAY_PUBKEY="your_relay_public_key_here"
-RELAY_DESCRIPTION="Your Team Nostr relay"</code>
+NPUB_DOMAIN="yourdomain.com" # optional if you have it, if not leave blank.
+</code>
                     </div>
                 </div>
                 
                 <div class="warning">
                     <strong>⚠️ Important:</strong> The <code>NPUB_DOMAIN</code> should match your domain and reference the <code>/.well-known/nostr.json</code> file to indicate which users have access.
                 </div>
-                
-                <div class="info">
-                    <strong>🔧 Don't have a domain with nostr.json yet?</strong> You can set up a NIP-05 service using the <a href="https://github.com/bitkarrot/nip05-service.git" target="_blank">nip05-service repository</a>. This will help you create and manage your <code>.well-known/nostr.json</code> file for user verification.
-                </div>
-                
-                <ul class="checklist">
+                                <ul class="checklist">
                     <li>Click "Save" or "Update" after adding variables</li>
                     <li>Trigger a redeploy from the dashboard</li>
                 </ul>
+
                 
+                <div class="info">
+                    <strong>🔧 Don't have a domain with nostr.json yet?</strong> 
+                    <p>You can set up a NIP-05 service either 
+                    with the built in one on the relay or set up your own  <a href="https://github.com/bitkarrot/nip05-service.git" target="_blank">nip05-service repository</a>. 
+                    </p>
+                    <br/>
+                     <strong> Here's how to Configure nostr.json on the relay</strong> 
+                    <p> First, set a volume for the relay to save the nostr.json file, in case we redeploy.
+                        Second, visit the dashboard to add or remove users from the nostr.json file.
+                        Only the relay pubkey is able to login to make the changes for this setup.
+                    </p>
+                    <div class="video-wrapper">
+                    <iframe src="public/set_volume_nostrjson.mp4"
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen
+                            referrerpolicy="strict-origin-when-cross-origin">
+                    </iframe>
+                    </div>
+                </div>
+
                 <h3>Setup Public Domain</h3>
                 <img src="public/domain-zeabur.png" alt="Domain Setup" style="max-width: 100%; height: auto;">
                 <ul class="checklist">
@@ -461,8 +478,8 @@ RELAY_DESCRIPTION="Your Team Nostr relay"</code>
             </div>
             
             <div class="section">
-                <h2>🗄️ Step 3: Optional Database Configuration</h2>
-                <p>For production use, consider upgrading from the default Badger DB:</p>
+                <h2>🗄️ Optional: Database Configuration</h2>
+                <p>Best for production use, consider upgrading from the default Badger DB:</p>
                 
                 <h3>Option A: Zeabur PostgreSQL (Recommended for beginners)</h3>
                 <ul class="checklist">
@@ -484,7 +501,7 @@ RELAY_DESCRIPTION="Your Team Nostr relay"</code>
             </div>
             
             <div class="section">
-                <h2>📦 Step 4: Optional S3 Storage Configuration</h2>
+                <h2>📦 Optional: S3 Storage Configuration</h2>
                 <p>Replace filesystem storage with S3-compatible storage for Blossom media:</p>
                 
                 <h3>Using Tigris Data</h3>
@@ -524,7 +541,7 @@ BLOSSOM_URL=https://swarm123.zeabur.app (use your actual deployed URL)
             </div>
             
             <div class="section">
-                <h2>✅ Step 5: Verify Deployment</h2>
+                <h2>✅ Step 3: Verify Deployment</h2>
                 <ul class="checklist">
                     <li>Check deployment logs for any errors</li>
                     <li>Visit your deployed application URL</li>

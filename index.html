@@ -536,8 +536,6 @@
                     <input type="text" id="relayPubkey" class="input-field" placeholder="npub1... or 64-character hex" oninput="updateCodeBlock()">
                     <div id="hexHint" class="hex-hint hidden">Converted HEX: <span id="hexValue" style="color: #4ade80; font-family: monospace;"></span></div>
                 </div>
-                
-                <p>Copy and Paste into Zebur's AI for deploy</p>
             </div>            
             <div class="code-block" id="deployCodeBlock">
                 <pre><code id="deployCode">Deploy this repository https://github.com/HiveTalk/swarm and please use the zeabur-dashboard branch. 
@@ -554,7 +552,8 @@ RELAY_PUBKEY="3878......"</code></pre>
             </button>
             
                 <div class="content">
-                <div class="video-wrapper">
+            <p style="margin-top: 20px;">Copy and Paste into Zebur's AI for deploy</p>
+                    <div class="video-wrapper">
                     <iframe src="public/1shot.mp4" 
                             frameborder="0" 
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
@@ -838,7 +837,11 @@ BLOSSOM_URL=https://swarm123.zeabur.app (use your actual deployed URL)
             </div>
             
             <div class="section">
+            <div class="collapsible-header" onclick="toggleCollapsible(this)">
                 <h2>🆘 Troubleshooting</h2>
+                <span class="collapsible-toggle">▼</span>
+            </div>
+            <div class="collapsible-content">
                 <div class="warning">
                     <strong>Common Issues:</strong>
                     <ul style="margin-left: 20px; margin-top: 10px;">
@@ -849,6 +852,7 @@ BLOSSOM_URL=https://swarm123.zeabur.app (use your actual deployed URL)
                         <li>For S3 issues, confirm your credentials and endpoint are correct</li>
                     </ul>
                 </div>
+            </div>
             </div>
         </div>
         

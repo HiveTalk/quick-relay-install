@@ -202,7 +202,7 @@
             opacity: 0.6;
             text-decoration: line-through;
         }
-        
+
         .code-block {
             background: #09090b;
             color: #e4e4e7;
@@ -399,17 +399,42 @@
             </div>
 
             <div class="section">
-                <div class="collapsible-header expanded" onclick="toggleCollapsible(this)">
-                    <h2>📋 Prerequisites</h2>
-                    <span class="collapsible-toggle">▼</span>
+                <h2>One-shot AI Deploy</h2>
+                <div class="content">
+                    <p>Edit the "MyTestRelay" and PUBKEY below to be yours. Copy and Paste into Zebur's AI for deploy
+                    </p>
                 </div>
-                <div class="collapsible-content expanded">
-                    <ul class="checklist">
-                        <li>Zeabur account (sign up at <a href="https://zeabur.com" target="_blank">zeabur.com</a>)</li>
-                        <li>GitHub account</li>
-                        <li>Basic understanding of environment variables</li>
-                        <li>A domain with Nostr.json configured (or use the built in relay one)</li>
-                    </ul>
+
+                <div class="code-block">
+                     <button onclick="copyCode(this)">Copy</button>
+                <pre><code>Deploy this repository https://github.com/HiveTalk/swarm and please use the zeabur-dashboard branch. 
+
+Name it MyTestRelay. Automatically assign a zeabur domain to the MyTestRelay service. 
+
+Set the following environment variables.
+
+RELAY_NAME="MyTestRelay"
+RELAY_PUBKEY="3878......"
+                </code></pre>
+                </div>
+                <div class="content">
+                <ol>
+                <li>Wait until Deployed. Might take a while...Once the zeabur domain name is set, set the **BLOSSOM_URL** environment variable to the zeabur domain name provisioned.</li>
+                <li>Finally in the dashboard, if you want to keep using badger db and the filesystem for blossom (which are the default settings) please mount these volumes, so that the data is not wiped out every time you redeploy. </li>
+
+                <div class="code-block">
+                    <code>Volume ID : nostr
+Mount Directory "/app/public/.well-known"
+
+Volume ID: blossom
+Mount Directory "/app/blossom"
+
+Volume ID: db
+Mount Directory "/app/db”
+                </code>
+                </div>
+            <li>Verify your relay - see Step 3 below.</li>
+                </ol>
                 </div>
             </div>
 
@@ -441,7 +466,7 @@
                         </iframe>
                     </div>
                     <ul class="checklist">
-                        <li>Go to your Zeabur dashboard</li>
+                        <li>Go to your <a href="https://zeabur.com" target="_blank">Zeabur.com</a> dashboard</li>
                         <li>Click "Create New Project"</li>
                         <li>Select "Deploy from GitHub"</li>
                         <li>Enter repository URL: <code><a href="https://github.com/HiveTalk/swarm.git">https://github.com/HiveTalk/swarm.git</a></code></li>
@@ -696,6 +721,13 @@ BLOSSOM_URL=https://swarm123.zeabur.app (use your actual deployed URL)
     </div>
     
     <script>
+        function copyCode(btn) {
+            const code = btn.nextElementSibling.textContent;
+            navigator.clipboard.writeText(code);
+            btn.textContent = 'Copied!';
+            setTimeout(() => btn.textContent = 'Copy', 2000);
+        }
+
         function toggleTheme() {
             const body = document.body;
             const themeIcon = document.querySelector('.theme-icon');

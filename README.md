@@ -1,6 +1,12 @@
-# quick-relay-install
+# 1 Shot Reploy - Nostr Blossom Relay
 
 A comprehensive deployment guide and checklist for setting up Swarm Nostr relays on Zeabur cloud platform. Swarm is a Nostr relay implementation using the Khatru relay framework and Blossom media support.
+
+
+https://github.com/user-attachments/assets/cdfdde0c-488a-4e96-9426-16bef1a239ef
+
+
+
 
 ## Overview
 

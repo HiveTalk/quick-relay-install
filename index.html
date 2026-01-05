@@ -538,8 +538,7 @@
                 </div>
                 
                 <p>Copy and Paste into Zebur's AI for deploy</p>
-            </div>
-
+            </div>            
             <div class="code-block" id="deployCodeBlock">
                 <pre><code id="deployCode">Deploy this repository https://github.com/HiveTalk/swarm and please use the zeabur-dashboard branch. 
 
@@ -553,23 +552,24 @@ RELAY_PUBKEY="3878......"</code></pre>
             <button class="copy-button" onclick="copyDeployCode()">
                 <span>📋</span> Copy Deployment Prompt
             </button>
+            
                 <div class="content">
-                <ol>
-                <li>Wait until Deployed. Might take a while...Once the zeabur domain name is set, set the **BLOSSOM_URL** environment variable to the zeabur domain name provisioned.</li>
-                <li>Finally in the dashboard, if you want to keep using badger db and the filesystem for blossom (which are the default settings) please mount these volumes, so that the data is not wiped out every time you redeploy. </li>
-
-                <div class="code-block">
-                    <code>Volume ID : nostr
-Mount Directory "/app/public/.well-known"
-
-Volume ID: blossom
-Mount Directory "/app/blossom"
-
-Volume ID: db
-Mount Directory "/app/db”
-                </code>
+                <div class="video-wrapper">
+                    <iframe src="public/1shot.mp4" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen
+                            referrerpolicy="strict-origin-when-cross-origin">
+                    </iframe>
                 </div>
-            <li>Verify your relay - see Step 3 below.</li>
+
+                <ol style="margin-top: 30px;">
+                <li>Wait until Deployed. Might take a while...Once the zeabur domain name is set, set the **BLOSSOM_URL** environment variable to the zeabur domain name provisioned.</li>
+                    <img src="public/blossom.png" style="width: 100%;" alt="blossom">
+                <li>If you want to keep using the default settings please mount these volumes, so that the data is not wiped out every time you redeploy. </li>
+
+                <img src="public/volumes.png" style="width: 100%;" alt="Volumes">
+                <li>Verify your relay - see Step 3 below.</li>
                 </ol>
                 </div>
             </div>

@@ -528,7 +528,7 @@
 
                     <div id="loggedInSection" class="hidden logged-in-info">
                         <div>
-                            <span style="color: #4ade80;">✓</span> Logged in: <span id="loggedInNpub" class="font-mono"></span>
+                            <span style="color: #4ade80;">></span> Logged in as: <span id="loggedInNpub" class="font-mono"></span>
                         </div>
                         <span id="logoutBtn" class="logout-link">Logout</span>
                     </div>
@@ -962,6 +962,22 @@ RELAY_PUBKEY="${pubkey}"`;
                     loggedInSection.classList.add('hidden');
                     loggedInNpub.textContent = '';
                     pubkeyInput.value = '';
+                    
+                    // Clear all checklist progress from localStorage
+                    const keysToRemove = [];
+                    for (let i = 0; i < localStorage.length; i++) {
+                        const key = localStorage.key(i);
+                        if (key.startsWith('checklist-')) {
+                            keysToRemove.push(key);
+                        }
+                    }
+                    keysToRemove.forEach(key => localStorage.removeItem(key));
+                    
+                    // Uncheck all items in UI
+                    document.querySelectorAll('.checklist li').forEach(item => {
+                        item.classList.remove('checked');
+                    });
+
                     updateCodeBlock();
                 }
             });

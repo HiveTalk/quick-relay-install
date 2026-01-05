@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Deploy a Swarm Nostr Relay to Zeabur</title>
+    <script src="https://unpkg.com/nostr-tools@2.10.4/lib/nostr.bundle.js"></script>
+    <script src="https://unpkg.com/nostr-login@latest/dist/unpkg.js" data-dark-mode="true" data-methods="extension,connect,readOnly" data-no-banner="true"></script>
     <style>
         * {
             margin: 0;
@@ -350,6 +352,114 @@
             max-height: 5000px;
         }
         
+        .input-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .input-field {
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #3f3f46;
+            background: #27272a;
+            color: #e4e4e7;
+            font-size: 1em;
+            width: 100%;
+        }
+        
+        body.light-mode .input-field {
+            background: #f8f9fa;
+            color: #333;
+            border-color: #dee2e6;
+        }
+
+        .copy-button {
+            background: #4c1d95;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 10px;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .copy-button:hover {
+            background: #5b21b6;
+        }
+
+        body.light-mode .copy-button {
+            background: #5e72e4;
+        }
+
+        body.light-mode .copy-button:hover {
+            background: #485ec4;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .login-btn {
+            background: linear-gradient(135deg, #d97706 0%, #ea580c 100%);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        .login-btn:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
+        }
+
+        .logged-in-info {
+            background: rgba(74, 222, 128, 0.1);
+            border: 1px solid rgba(74, 222, 128, 0.3);
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85em;
+        }
+
+        .logout-link {
+            color: #94a3b8;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .logout-link:hover {
+            color: #e4e4e7;
+        }
+
+        .hex-hint {
+            font-size: 0.8em;
+            color: #94a3b8;
+            margin-top: 4px;
+        }
+
+        .error-border {
+            border-color: #ef4444 !important;
+        }
+
         @media print {
             body {
                 background: white;
@@ -400,22 +510,49 @@
 
             <div class="section">
                 <h2>One-shot AI Deploy</h2>
-                <div class="content">
-                    <p>Edit the "MyTestRelay" and PUBKEY below to be yours. Copy and Paste into Zebur's AI for deploy
-                    </p>
+            <div class="content">
+                <div class="input-group">
+                    <label for="relayName">Relay Name:</label>
+                    <input type="text" id="relayName" class="input-field" placeholder="MyTestRelay" oninput="updateCodeBlock()">
                 </div>
 
-                <div class="code-block">
-                <pre><code>Deploy this repository https://github.com/HiveTalk/swarm and please use the zeabur-dashboard branch. 
+                <div class="input-group">
+                    <label for="relayPubkey">Relay Public Key (npub or HEX):</label>
+                    
+                    <div id="loginSection">
+                        <button type="button" id="nostrLoginBtn" class="login-btn">
+                            <svg class="w-4 h-4" width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+                            Login with Nostr
+                        </button>
+                    </div>
+
+                    <div id="loggedInSection" class="hidden logged-in-info">
+                        <div>
+                            <span style="color: #4ade80;">✓</span> Logged in: <span id="loggedInNpub" class="font-mono"></span>
+                        </div>
+                        <span id="logoutBtn" class="logout-link">Logout</span>
+                    </div>
+
+                    <input type="text" id="relayPubkey" class="input-field" placeholder="npub1... or 64-character hex" oninput="updateCodeBlock()">
+                    <div id="hexHint" class="hex-hint hidden">Converted HEX: <span id="hexValue" style="color: #4ade80; font-family: monospace;"></span></div>
+                </div>
+                
+                <p>Copy and Paste into Zebur's AI for deploy</p>
+            </div>
+
+            <div class="code-block" id="deployCodeBlock">
+                <pre><code id="deployCode">Deploy this repository https://github.com/HiveTalk/swarm and please use the zeabur-dashboard branch. 
 
 Name it MyTestRelay. Automatically assign a zeabur domain to the MyTestRelay service. 
 
 Set the following environment variables.
 
 RELAY_NAME="MyTestRelay"
-RELAY_PUBKEY="3878......"
-                </code></pre>
-                </div>
+RELAY_PUBKEY="3878......"</code></pre>
+            </div>
+            <button class="copy-button" onclick="copyDeployCode()">
+                <span>📋</span> Copy Deployment Prompt
+            </button>
                 <div class="content">
                 <ol>
                 <li>Wait until Deployed. Might take a while...Once the zeabur domain name is set, set the **BLOSSOM_URL** environment variable to the zeabur domain name provisioned.</li>
@@ -722,6 +859,126 @@ BLOSSOM_URL=https://swarm123.zeabur.app (use your actual deployed URL)
     </div>
     
     <script>
+        // Nostr Helper Functions
+        function isValidHex(str) {
+            return /^[0-9a-fA-F]{64}$/.test(str);
+        }
+
+        function convertToHex(input) {
+            input = input.trim();
+            if (!input) return '';
+            
+            if (isValidHex(input)) {
+                return input.toLowerCase();
+            }
+            
+            if (input.startsWith('npub1')) {
+                try {
+                    const decoded = NostrTools.nip19.decode(input);
+                    if (decoded.type !== 'npub') throw new Error('Not an npub');
+                    return decoded.data;
+                } catch (e) {
+                    throw new Error('Invalid npub format');
+                }
+            }
+            throw new Error('Invalid format');
+        }
+
+        function updateCodeBlock() {
+            const nameInput = document.getElementById('relayName');
+            const pubkeyInput = document.getElementById('relayPubkey');
+            const hexHint = document.getElementById('hexHint');
+            const hexValue = document.getElementById('hexValue');
+            
+            const name = nameInput.value || 'MyTestRelay';
+            const rawPubkey = pubkeyInput.value.trim();
+            let pubkey = '3878......';
+            let hex = '';
+
+            if (rawPubkey) {
+                try {
+                    hex = convertToHex(rawPubkey);
+                    pubkey = hex;
+                    hexValue.textContent = hex;
+                    hexHint.classList.remove('hidden');
+                    pubkeyInput.classList.remove('error-border');
+                } catch (e) {
+                    hexHint.classList.add('hidden');
+                    if (rawPubkey.length > 10) {
+                        pubkeyInput.classList.add('error-border');
+                    }
+                }
+            } else {
+                hexHint.classList.add('hidden');
+                pubkeyInput.classList.remove('error-border');
+            }
+            
+            const code = `Deploy this repository https://github.com/HiveTalk/swarm and please use the zeabur-dashboard branch. 
+
+Name it ${name}. Automatically assign a zeabur domain to the ${name} service. 
+
+Set the following environment variables.
+
+RELAY_NAME="${name}"
+RELAY_PUBKEY="${pubkey}"`;
+            
+            document.getElementById('deployCode').textContent = code;
+        }
+
+        // Nostr Login Integration
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginSection = document.getElementById('loginSection');
+            const loggedInSection = document.getElementById('loggedInSection');
+            const loggedInNpub = document.getElementById('loggedInNpub');
+            const nostrLoginBtn = document.getElementById('nostrLoginBtn');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const pubkeyInput = document.getElementById('relayPubkey');
+
+            nostrLoginBtn.addEventListener('click', () => {
+                document.dispatchEvent(new CustomEvent('nlLaunch', { detail: 'welcome' }));
+            });
+
+            logoutBtn.addEventListener('click', () => {
+                document.dispatchEvent(new CustomEvent('nlLogout'));
+            });
+
+            document.addEventListener('nlAuth', async (e) => {
+                if (e.detail.type === 'login' || e.detail.type === 'signup') {
+                    try {
+                        const hexPubkey = await window.nostr.getPublicKey();
+                        const npub = NostrTools.nip19.npubEncode(hexPubkey);
+                        
+                        loginSection.classList.add('hidden');
+                        loggedInSection.classList.remove('hidden');
+                        loggedInNpub.textContent = npub.slice(0, 10) + '...' + npub.slice(-8);
+                        
+                        pubkeyInput.value = npub;
+                        updateCodeBlock();
+                    } catch (err) {
+                        console.error('Failed to get pubkey:', err);
+                    }
+                } else if (e.detail.type === 'logout') {
+                    loginSection.classList.remove('hidden');
+                    loggedInSection.classList.add('hidden');
+                    loggedInNpub.textContent = '';
+                    pubkeyInput.value = '';
+                    updateCodeBlock();
+                }
+            });
+        });
+
+        function copyDeployCode() {
+            const code = document.getElementById('deployCode').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                const btn = document.querySelector('.copy-button span:last-child') || document.querySelector('.copy-button');
+                const originalText = btn.textContent;
+                btn.textContent = '✅ Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            });
+        }
+
         function copyCode(btn) {
             const code = btn.nextElementSibling.textContent;
             navigator.clipboard.writeText(code);

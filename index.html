@@ -33,7 +33,7 @@
     <meta name="theme-color" content="#000000" />
     <meta name="msapplication-TileColor" content="#000000" />
     
-    <title>Deploy a Swarm Nostr Relay to Zeabur</title>
+    <title>Deploy a Free Nostr Blossom Relay to Zeabur</title>
     <script src="https://unpkg.com/nostr-tools@2.10.4/lib/nostr.bundle.js"></script>
     <script src="https://unpkg.com/nostr-login@latest/dist/unpkg.js" data-dark-mode="true" data-methods="extension,connect,readOnly" data-no-banner="true"></script>
     <style>
@@ -524,7 +524,7 @@
             <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
                 <span class="theme-icon">☀️</span>
             </button>
-            <h1>🚀 Deploy Swarm Nostr Relay to Zeabur</h1>
+            <h1>🚀 Deploy FREE Nostr Blossom Relay to Zeabur</h1>
             <p>One-Click Deployment Checklist & Configuration Guide</p>
         </header>
 
@@ -582,7 +582,7 @@ RELAY_PUBKEY="3878......"</code></pre>
             </button>
             
                 <div class="content">
-            <p style="margin-top: 20px;">Copy and Paste into Zebur's AI for deploy</p>
+            <p style="margin-top: 20px;">Copy and Paste into <a href="https://zeabur.com/">Zebur.com's AI</a> for deploy</p>
                     <div class="video-wrapper">
                     <iframe src="public/1shot.mp4" 
                             frameborder="0" 
@@ -598,26 +598,14 @@ RELAY_PUBKEY="3878......"</code></pre>
                 <li>If you want to keep using the default settings please mount these volumes, so that the data is not wiped out every time you redeploy. </li>
 
                 <img src="public/volumes.png" style="width: 100%;" alt="Volumes">
-                <li>Verify your relay - see Step 3 below.</li>
+                <li>Verify your relay - <a href="#step-3">Jump to Step 3 below</a>.</li>
                 </ol>
                 </div>
             </div>
 
-        <div class="content">
-            <div class="video-section">
-                <h2>📺 Introduction to Zeabur (5 minutes)</h2>
-                <div class="video-wrapper">
-                    <iframe src="https://www.youtube.com/embed/LULtcoJ5Uy4" 
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                            allowfullscreen
-                            referrerpolicy="strict-origin-when-cross-origin">
-                    </iframe>
-                </div>
-            </div>
-                                    
+        <div class="content">                                    
             <div class="section">
-                                <h2 style="margin-bottom: 50px;">Step by Step Deployment Guide</h2>
+                                <h2 style="margin-bottom: 50px;">Manual Deployment Guide</h2>
 
                 <div class="collapsible-header" onclick="toggleCollapsible(this)">
                     <h2>🎯 Step 1: Initial Deployment</h2>
@@ -823,7 +811,7 @@ BLOSSOM_URL=https://swarm123.zeabur.app (use your actual deployed URL)
             </div>
             
             <div class="section">
-                <div class="collapsible-header expanded" onclick="toggleCollapsible(this)">
+                <div class="collapsible-header expanded" id="step-3" onclick="toggleCollapsible(this)">
                     <h2>✅ Step 3: Verify Deployment</h2>
                     <span class="collapsible-toggle">▼</span>
                 </div>

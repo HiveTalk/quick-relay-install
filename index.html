@@ -605,32 +605,37 @@ RELAY_PUBKEY="3878......"</code></pre>
 
 
             <div class="section">
-                <h2>💰 Zero Cost Relay</h2>
-                <p>Running a Nostr relay doesn't have to be expensive. By leveraging the free tiers of several modern cloud platforms, you can host a fully functional Swarm relay for $0/month. This is made possible by the generous free usage limits provided by Zeabur, Neon, and Tigris.</p>
-
-                <div class="info">
-                    <strong>Zeabur (Deployment & Hosting)</strong>
-                    <p>Zeabur provides a free tier that is perfect for small relays. It includes enough resources to run the Swarm container and handle initial traffic without any cost.</p>
-                    <img src="public/pricing/zeabur free tier.png" style="width: 100%; border-radius: 8px; margin: 10px 0;" alt="Zeabur Pricing">
-                    <p><a href="https://zeabur.com/pricing" target="_blank">View Zeabur Pricing</a></p>
+                <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                    <h2>💰 Zero Cost Relay</h2>
+                    <span class="collapsible-toggle">▼</span>
                 </div>
+                <div class="collapsible-content expanded">
+                    <p>Running a Nostr relay doesn't have to be expensive. By leveraging the free tiers of several modern cloud platforms, you can host a fully functional Swarm relay for $0/month. This is made possible by the generous free usage limits provided by Zeabur, Neon, and Tigris.</p>
 
-                <div class="info">
-                    <strong>Neon.com (PostgreSQL Database)</strong>
-                    <p>Neon offers a serverless PostgreSQL database with a generous free tier. It includes 0.5 GiB of storage, which is more than enough for a starter relay's event metadata.</p>
-                    <img src="public/pricing/Neon Free tier.png" style="width: 100%; border-radius: 8px; margin: 10px 0;" alt="Neon Pricing">
-                    <p><a href="https://neon.com/pricing" target="_blank">View Neon.com Pricing</a></p>
-                </div>
+                    <div class="info">
+                        <strong>Zeabur (Deployment & Hosting)</strong>
+                        <p>Zeabur provides a free tier that is perfect for small relays. It includes enough resources to run the Swarm container and handle initial traffic without any cost.</p>
+                        <img src="public/pricing/zeabur free tier.png" style="width: 100%; border-radius: 8px; margin: 10px 0;" alt="Zeabur Pricing">
+                        <p><a href="https://zeabur.com/pricing" target="_blank">View Zeabur Pricing</a></p>
+                    </div>
 
-                <div class="info">
-                    <strong>Tigris (S3-Compatible Storage)</strong>
-                    <p>For Blossom media storage, Tigris offers an S3-compatible API with a free tier including 5GB of storage and generous transfer limits.</p>
-                    <img src="public/pricing/tigris free tier.png" style="width: 100%; border-radius: 8px; margin: 10px 0;" alt="Tigris Pricing">
-                    <p><a href="https://www.tigrisdata.com/docs/pricing/" target="_blank">View Tigris Pricing</a></p>
-                </div>
+                    <div class="info">
+                        <strong>Neon.com (PostgreSQL Database)</strong>
+                        <p>Neon offers a serverless PostgreSQL database with a generous free tier. It includes 0.5 GiB of storage, which is more than enough for a starter relay's event metadata.</p>
+                        <img src="public/pricing/Neon Free tier.png" style="width: 100%; border-radius: 8px; margin: 10px 0;" alt="Neon Pricing">
+                        <p><a href="https://neon.com/pricing" target="_blank">View Neon.com Pricing</a></p>
+                    </div>
 
-                <div class="warning">
-                    <strong>Note:</strong> I am not associated with any of these companies. I simply wanted to share how it's possible to easily deploy a zero-cost relay for starters and show how easy the process can be.
+                    <div class="info">
+                        <strong>Tigris (S3-Compatible Storage)</strong>
+                        <p>For Blossom media storage, Tigris offers an S3-compatible API with a free tier including 5GB of storage and generous transfer limits.</p>
+                        <img src="public/pricing/tigris free tier.png" style="width: 100%; border-radius: 8px; margin: 10px 0;" alt="Tigris Pricing">
+                        <p><a href="https://www.tigrisdata.com/docs/pricing/" target="_blank">View Tigris Pricing</a></p>
+                    </div>
+
+                    <div class="warning">
+                        <strong>Note:</strong> I am not associated with any of these companies. I simply wanted to share how it's possible to easily deploy a zero-cost relay for starters and show how easy the process can be.
+                    </div>
                 </div>
             </div>
 

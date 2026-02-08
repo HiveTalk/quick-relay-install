@@ -631,21 +631,14 @@ RELAY_PUBKEY="3878......"</code></pre>
                     <h2>💰 Zero Cost Relay</h2>
                     <span class="collapsible-toggle">▼</span>
                 </div>
-                <div class="collapsible-content expanded">
-                    <p>Running a Nostr relay doesn't have to be expensive. By leveraging the free tiers of several modern cloud platforms, you can host a fully functional Swarm relay for $0/month. This is made possible by the generous free usage limits provided by Zeabur, Neon, and Tigris.</p>
+                <div class="collapsible-content">
+                    <p>Running a Nostr relay doesn't have to be expensive. By leveraging the free tiers of several modern cloud platforms, you can host a fully functional Swarm relay for $0/month. This is made possible by the generous free usage limits provided by Zeabur and Tigris.</p>
 
                     <div class="info">
                         <strong>Zeabur (Deployment & Hosting)</strong>
                         <p>Zeabur provides a free tier that is perfect for small relays. It includes enough resources to run the Swarm container and handle initial traffic without any cost.</p>
                         <img src="public/pricing/zeabur free tier.png" style="width: 100%; border-radius: 8px; margin: 10px 0;" alt="Zeabur Pricing">
                         <p><a href="https://zeabur.com/pricing" target="_blank">View Zeabur Pricing</a></p>
-                    </div>
-
-                    <div class="info">
-                        <strong>Neon.com (PostgreSQL Database)</strong>
-                        <p>Neon offers a serverless PostgreSQL database with a generous free tier. It includes 0.5 GiB of storage, which is more than enough for a starter relay's event metadata.</p>
-                        <img src="public/pricing/Neon Free tier.png" style="width: 100%; border-radius: 8px; margin: 10px 0;" alt="Neon Pricing">
-                        <p><a href="https://neon.com/pricing" target="_blank">View Neon.com Pricing</a></p>
                     </div>
 
                     <div class="info">
@@ -783,7 +776,7 @@ NPUB_DOMAIN="yourdomain.com" # optional if you have it, if not leave blank.
                 <div class="collapsible-content">
                     <p>Best for production use, consider upgrading from the default Badger DB:</p>
                     
-                    <h3>Option A: Zeabur PostgreSQL (Recommended for beginners)</h3>
+                    <h3>Option A: Zeabur PostgreSQL Template (Recommended for beginners)</h3>
                     <ul class="checklist">
                         <li>In your Zeabur project, click "Add Service"</li>
                         <li>Select "PostgreSQL" from the marketplace</li>
@@ -795,26 +788,26 @@ NPUB_DOMAIN="yourdomain.com" # optional if you have it, if not leave blank.
                         </li>
                         <li>Redeploy your application</li>
                     </ul>
-                    
-                    <h3>Option B: External PostgreSQL (Neon.com)</h3>
+
+                    <h3>Option B: InsForge PostgreSQL</h3>
+                    <p><a href="https://insforge.com" target="_blank">InsForge</a> provides a managed PostgreSQL database that is fully compatible with the Swarm relay.</p>
                     <ul class="checklist">
-                        <li>Sign up at <a href="https://neon.tech" target="_blank">neon.tech</a></li>
-                        <li>Create a new database</li>
-                        <li>Copy the connection string</li>
-                        <li> 
-                            Update Zeabur environment variables. 
+                        <li>Sign up at <a href="https://insforge.com" target="_blank">insforge.com</a></li>
+                        <li>Create a new project and provision a PostgreSQL database</li>
+                        <li>Copy the connection string from your InsForge dashboard</li>
+                        <li>Update Zeabur environment variables:
                             Also see guide for details here: 
                             <a href="https://github.com/HiveTalk/swarm/blob/zeabur-dashboard/ENV_CONFIG_GUIDE.md#-configuration-details" target="_blank">ENV_CONFIG_GUIDE.md</a>
-
                             <div class="code-block">
                             <code>
-     DB_ENGINE=postgres
-     DATABASE_URL=postgres://user:pass@host:5432/db?sslmode=disable
-                                </code>    
-                                </div>
+DB_ENGINE=postgres
+DATABASE_URL=postgres://user:pass@host:5432/db?sslmode=disable
+                            </code>
+                            </div>
                         </li>
                         <li>Redeploy your application</li>
                     </ul>
+                    
                 </div>
             </div>
             
@@ -913,7 +906,7 @@ BLOSSOM_URL=https://swarm123.zeabur.app (use your actual deployed URL)
                         <li><a href="https://github.com/HiveTalk/swarm" target="_blank">HiveTalk Swarm GitHub Repository</a></li>
                         <li><a href="https://github.com/bitkarrot/nip05-service.git" target="_blank">NIP-05 Service (for nostr.json setup)</a></li>
                         <li><a href="https://zeabur.com/docs" target="_blank">Zeabur Documentation</a></li>
-                        <li><a href="https://neon.tech" target="_blank">Neon PostgreSQL</a></li>
+                        <li><a href="https://insforge.com" target="_blank">InsForge PostgreSQL</a></li>
                         <li><a href="https://www.tigrisdata.com" target="_blank">Tigris Data S3 Storage</a></li>
                     </ul>
                 </div>

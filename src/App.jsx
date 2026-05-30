@@ -21,37 +21,56 @@ function App() {
     if (savedChecklist) {
       setChecklistItems(JSON.parse(savedChecklist));
     }
+  }, []);
 
-    // Load the Nostr login widget script
-    const script = document.createElement('script');
-    script.type = 'module';
-    script.src = '/relay-login/relay-login.js';
-    document.body.appendChild(script);
-
-    // Set up global handler for pubkey updates from the widget
-    window.onNostrLogin = (pubkey) => {
-      if (pubkey) {
-        setRelayPubkey(pubkey);
-        // If it's an npub, convert to hex
-        if (pubkey.startsWith('npub1')) {
-          try {
-            const { decode } = window.nostr;
-            const decoded = decode(pubkey);
-            const hex = Buffer.from(decoded).toString('hex');
-            setHexValue(hex);
-            setShowHexHint(true);
-          } catch (e) {
-            console.error('Failed to decode npub:', e);
+  // Separate effect for loading the Nostr widget after component mounts
+  useEffect(() => {
+    // Wait for the next tick to ensure DOM is ready
+    const timeoutId = setTimeout(() => {
+      // Check if the div exists
+      const loginRoot = document.getElementById('nostr-login-root');
+      if (loginRoot && !loginRoot.hasChildNodes()) {
+        // Load the Nostr login widget script
+        const script = document.createElement('script');
+        script.type = 'module';
+        script.src = '/relay-login/relay-login.js';
+        
+        // Set up global handler for pubkey updates from the widget
+        window.onNostrLogin = (pubkey) => {
+          if (pubkey) {
+            setRelayPubkey(pubkey);
+            // If it's an npub, convert to hex
+            if (pubkey.startsWith('npub1')) {
+              try {
+                const { decode } = window.nostr;
+                const decoded = decode(pubkey);
+                const hex = Buffer.from(decoded).toString('hex');
+                setHexValue(hex);
+                setShowHexHint(true);
+              } catch (e) {
+                console.error('Failed to decode npub:', e);
+              }
+            } else {
+              setHexValue(pubkey);
+              setShowHexHint(true);
+            }
           }
-        } else {
-          setHexValue(pubkey);
-          setShowHexHint(true);
-        }
+        };
+
+        script.onload = () => {
+          console.log('Nostr login widget loaded');
+        };
+
+        script.onerror = (e) => {
+          console.error('Failed to load Nostr login widget:', e);
+        };
+
+        document.body.appendChild(script);
       }
-    };
+    }, 100);
 
     return () => {
-      document.body.removeChild(script);
+      clearTimeout(timeoutId);
       window.onNostrLogin = null;
     };
   }, []);

@@ -99,14 +99,30 @@ RELAY_PUBKEY="${hexValue || relayPubkey}"`;
     localStorage.setItem('checklistState', JSON.stringify(checklistItems));
   }, [checklistItems]);
 
-  const deployCode = `Deploy this repository https://github.com/HiveTalk/swarm and please use the zeabur-dashboard branch. 
+  // Always use hexValue for the deploy code, ensure it's set
+const getHexPubkey = () => {
+  if (hexValue) return hexValue;
+  if (relayPubkey.startsWith('npub1')) {
+    try {
+      const { decode } = window.nostr;
+      const decoded = decode(relayPubkey);
+      return Buffer.from(decoded).toString('hex');
+    } catch (e) {
+      console.error('Failed to decode npub:', e);
+      return relayPubkey;
+    }
+  }
+  return relayPubkey;
+};
+
+const deployCode = `Deploy this repository https://github.com/HiveTalk/swarm and please use the zeabur-dashboard branch. 
 
 Name it ${relayName}. Automatically assign a zeabur domain to the ${relayName} service. 
 
 Set the following environment variables.
 
 RELAY_NAME="${relayName}"
-RELAY_PUBKEY="${hexValue || relayPubkey}"`;
+RELAY_PUBKEY="${getHexPubkey()}"`;
 
   return (
     <div className={`app ${theme}`}>

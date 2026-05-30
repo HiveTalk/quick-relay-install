@@ -35,7 +35,8 @@
     
     <title>Deploy a Free Nostr Blossom Relay to Zeabur</title>
     <script src="https://unpkg.com/nostr-tools@2.10.4/lib/nostr.bundle.js"></script>
-    <script src="https://unpkg.com/nostr-login@latest/dist/unpkg.js" data-dark-mode="true" data-methods="extension,connect,readOnly" data-no-banner="true"></script>
+    <!-- Nostr login widget (built from ./mkstack with mkstack auth components) -->
+    <link rel="stylesheet" href="public/relay-login/relay-login.css">
     <style>
         * {
             margin: 0;
@@ -567,19 +568,8 @@
                 <div class="input-group">
                     <label for="relayPubkey">Then, set a Relay Public Key (npub or HEX):</label>
                     
-                    <div id="loginSection">
-                        <button type="button" id="nostrLoginBtn" class="login-btn">
-                            <svg class="w-4 h-4" width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
-                            Login with Nostr
-                        </button>
-                    </div>
-
-                    <div id="loggedInSection" class="hidden logged-in-info">
-                        <div>
-                            <span style="color: #4ade80;">></span> Logged in as: <span id="loggedInNpub" class="font-mono"></span>
-                        </div>
-                        <span id="logoutBtn" class="logout-link">Logout</span>
-                    </div>
+                    <!-- React login widget (mkstack AuthDialog) mounts here -->
+                    <div id="nostr-login-root"></div>
 
                     <input type="text" id="relayPubkey" class="input-field" placeholder="npub1... or 64-character hex" oninput="updateCodeBlock()">
                     <div id="hexHint" class="hex-hint hidden">Converted HEX: <span id="hexValue" style="color: #4ade80; font-family: monospace;"></span></div>
@@ -1005,63 +995,9 @@ RELAY_PUBKEY="${pubkey}"`;
             document.getElementById('deployCode').textContent = code;
         }
 
-        // Nostr Login Integration
-        document.addEventListener('DOMContentLoaded', () => {
-            const loginSection = document.getElementById('loginSection');
-            const loggedInSection = document.getElementById('loggedInSection');
-            const loggedInNpub = document.getElementById('loggedInNpub');
-            const nostrLoginBtn = document.getElementById('nostrLoginBtn');
-            const logoutBtn = document.getElementById('logoutBtn');
-            const pubkeyInput = document.getElementById('relayPubkey');
-
-            nostrLoginBtn.addEventListener('click', () => {
-                document.dispatchEvent(new CustomEvent('nlLaunch', { detail: 'welcome' }));
-            });
-
-            logoutBtn.addEventListener('click', () => {
-                document.dispatchEvent(new CustomEvent('nlLogout'));
-            });
-
-            document.addEventListener('nlAuth', async (e) => {
-                if (e.detail.type === 'login' || e.detail.type === 'signup') {
-                    try {
-                        const hexPubkey = await window.nostr.getPublicKey();
-                        const npub = NostrTools.nip19.npubEncode(hexPubkey);
-                        
-                        loginSection.classList.add('hidden');
-                        loggedInSection.classList.remove('hidden');
-                        loggedInNpub.textContent = npub.slice(0, 10) + '...' + npub.slice(-8);
-                        
-                        pubkeyInput.value = npub;
-                        updateCodeBlock();
-                    } catch (err) {
-                        console.error('Failed to get pubkey:', err);
-                    }
-                } else if (e.detail.type === 'logout') {
-                    loginSection.classList.remove('hidden');
-                    loggedInSection.classList.add('hidden');
-                    loggedInNpub.textContent = '';
-                    pubkeyInput.value = '';
-                    
-                    // Clear all checklist progress from localStorage
-                    const keysToRemove = [];
-                    for (let i = 0; i < localStorage.length; i++) {
-                        const key = localStorage.key(i);
-                        if (key.startsWith('checklist-')) {
-                            keysToRemove.push(key);
-                        }
-                    }
-                    keysToRemove.forEach(key => localStorage.removeItem(key));
-                    
-                    // Uncheck all items in UI
-                    document.querySelectorAll('.checklist li').forEach(item => {
-                        item.classList.remove('checked');
-                    });
-
-                    updateCodeBlock();
-                }
-            });
-        });
+        // Nostr login is handled by the React widget mounted into
+        // #nostr-login-root (see public/relay-login/relay-login.js). It writes
+        // the npub into #relayPubkey and resets checklist state on logout.
 
         function copyDeployCode() {
             const code = document.getElementById('deployCode').textContent;
@@ -1156,5 +1092,7 @@ RELAY_PUBKEY="${pubkey}"`;
             initChecklist();
         });
     </script>
+    <!-- Nostr login widget bundle (mkstack React + AuthDialog) -->
+    <script type="module" src="public/relay-login/relay-login.js"></script>
 </body>
 </html>

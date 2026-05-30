@@ -36,7 +36,7 @@
     <title>Deploy a Free Nostr Blossom Relay to Zeabur</title>
     <script src="https://unpkg.com/nostr-tools@2.10.4/lib/nostr.bundle.js"></script>
     <!-- Nostr login widget (built from ./mkstack with mkstack auth components) -->
-    <link rel="stylesheet" href="public/relay-login/relay-login.css">
+    <link rel="stylesheet" href="/public/relay-login/relay-login.css">
     <style>
         * {
             margin: 0;
@@ -553,7 +553,7 @@
             <p style="background-color: #312e81; padding: 15px; display: flex; align-items: center; gap: 15px; flex-wrap: wrap; border-radius: 6px;">  
                 <span style="color: white;"><b>First, Sign up to the AI Dev ops platform here:</b></span>                     
                 <a href="https://zeabur.com/referral?referralCode=bitkarrot&utm_source=bitkarrot&utm_campaign=oss">
-                    <img src="public/zeabur-img.png" width="150" alt="Deployed on Zeabur" style="display: block;"/>
+                    <img src="/public/zeabur-img.png" width="150" alt="Deployed on Zeabur" style="display: block;"/>
                 </a>
                 </p>
             </div>
@@ -603,12 +603,12 @@ RELAY_PUBKEY="3878......"</code></pre>
                 <ol style="margin-top: 30px;">
                 <li>Wait until Deployed. Might take a while...Once the zeabur domain name is set, make sure the **BLOSSOM_URL** environment variable is set to the zeabur domain name provisioned.</li>
                     <p style="margin-top: 20px; margin-bottom: 20px;">
-                <img src="public/blossom.png" style="width: 100%; border: 1px solid #ccc;" alt="blossom">
+                <img src="/public/blossom.png" style="width: 100%; border: 1px solid #ccc;" alt="blossom">
                 </p>
                 <li>If you want to keep using the default settings please mount these volumes, so that the data is not wiped out every time you redeploy. </li>
 
                 <p style="margin-top: 20px; margin-bottom: 20px;">
-                <img src="public/volumes.png" style="width: 100%; border: 1px solid #ccc;" alt="Volumes">
+                <img src="/public/volumes.png" style="width: 100%; border: 1px solid #ccc;" alt="Volumes">
                 </p>
                 <li>Verify your relay - <a href="#step-3">Jump to Step 3 below</a>.</li>
                 </ol>
@@ -627,14 +627,14 @@ RELAY_PUBKEY="3878......"</code></pre>
                     <div class="info">
                         <strong>Zeabur (Deployment & Hosting)</strong>
                         <p>Zeabur provides a free tier that is perfect for small relays. It includes enough resources to run the Swarm container and handle initial traffic without any cost.</p>
-                        <img src="public/pricing/zeabur free tier.png" style="width: 100%; border-radius: 8px; margin: 10px 0;" alt="Zeabur Pricing">
+                        <img src="/public/pricing/zeabur free tier.png" style="width: 100%; border-radius: 8px; margin: 10px 0;" alt="Zeabur Pricing">
                         <p><a href="https://zeabur.com/pricing" target="_blank">View Zeabur Pricing</a></p>
                     </div>
 
                     <div class="info">
                         <strong>Tigris (S3-Compatible Storage)</strong>
                         <p>For Blossom media storage, Tigris offers an S3-compatible API with a free tier including 5GB of storage and generous transfer limits.</p>
-                        <img src="public/pricing/tigris free tier.png" style="width: 100%; border-radius: 8px; margin: 10px 0;" alt="Tigris Pricing">
+                        <img src="/public/pricing/tigris free tier.png" style="width: 100%; border-radius: 8px; margin: 10px 0;" alt="Tigris Pricing">
                         <p><a href="https://www.tigrisdata.com/docs/pricing/" target="_blank">View Tigris Pricing</a></p>
                     </div>
 
@@ -654,7 +654,7 @@ RELAY_PUBKEY="3878......"</code></pre>
                 </div>
                 <div class="collapsible-content">
                     <div class="video-wrapper">
-                        <iframe src="public/setup-project.mp4"
+                        <iframe src="/public/setup-project.mp4"
                                 frameborder="0" 
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                                 allowfullscreen
@@ -683,7 +683,7 @@ RELAY_PUBKEY="3878......"</code></pre>
                 </div>
                 <div class="collapsible-content">
                     <video width="100%" height="500" controls>
-                        <source src="public/variables.mp4" type="video/mp4">
+                        <source src="/public/variables.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
 
@@ -722,7 +722,7 @@ NPUB_DOMAIN="yourdomain.com" # optional if you have it, if not leave blank.
                         <p> First, set a volume for the relay to save the nostr.json file, in case we redeploy.
                         </p>
                         <div class="video-wrapper">
-                        <iframe src="public/set_volume_nostrjson.mp4"
+                        <iframe src="/public/set_volume_nostrjson.mp4"
                                 frameborder="0" 
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                                 allowfullscreen
@@ -734,7 +734,7 @@ NPUB_DOMAIN="yourdomain.com" # optional if you have it, if not leave blank.
                     <h3>Setup Public Domain</h3>
                     <p> You Must setup a domain for your relay to function. </p>
                 <div class="video-wrapper">
-                    <iframe src="public/zeabur-set-a-domain-name.mp4" 
+                    <iframe src="/public/zeabur-set-a-domain-name.mp4" 
                             frameborder="0" 
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                             allowfullscreen
@@ -865,7 +865,7 @@ BLOSSOM_URL=https://swarm123.zeabur.app (use your actual deployed URL)
                 </div>
                 <div class="collapsible-content expanded">
                     <div class="video-wrapper">
-                        <iframe src="public/verify_deploy.mp4" 
+                        <iframe src="/public/verify_deploy.mp4" 
                                 frameborder="0" 
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                                 allowfullscreen
@@ -1093,6 +1093,6 @@ RELAY_PUBKEY="${pubkey}"`;
         });
     </script>
     <!-- Nostr login widget bundle (mkstack React + AuthDialog) -->
-    <script type="module" src="public/relay-login/relay-login.js"></script>
+    <script type="module" src="/public/relay-login/relay-login.js"></script>
 </body>
 </html>

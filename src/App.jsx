@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import './relay-login.css';
 
 function App() {
   const [theme, setTheme] = useState('dark');
@@ -20,6 +21,39 @@ function App() {
     if (savedChecklist) {
       setChecklistItems(JSON.parse(savedChecklist));
     }
+
+    // Load the Nostr login widget script
+    const script = document.createElement('script');
+    script.type = 'module';
+    script.src = '/relay-login/relay-login.js';
+    document.body.appendChild(script);
+
+    // Set up global handler for pubkey updates from the widget
+    window.onNostrLogin = (pubkey) => {
+      if (pubkey) {
+        setRelayPubkey(pubkey);
+        // If it's an npub, convert to hex
+        if (pubkey.startsWith('npub1')) {
+          try {
+            const { decode } = window.nostr;
+            const decoded = decode(pubkey);
+            const hex = Buffer.from(decoded).toString('hex');
+            setHexValue(hex);
+            setShowHexHint(true);
+          } catch (e) {
+            console.error('Failed to decode npub:', e);
+          }
+        } else {
+          setHexValue(pubkey);
+          setShowHexHint(true);
+        }
+      }
+    };
+
+    return () => {
+      document.body.removeChild(script);
+      window.onNostrLogin = null;
+    };
   }, []);
 
   const toggleTheme = () => {
@@ -129,9 +163,27 @@ RELAY_PUBKEY="${hexValue || relayPubkey}"`;
                   type="text" 
                   id="relayPubkey" 
                   className="input-field" 
-                  placeholder="npub1... or 64-character hex" 
+                  placeholder="Use the Nostr login widget above or enter npub1... or 64-character hex" 
                   value={relayPubkey}
-                  onChange={(e) => setRelayPubkey(e.target.value)}
+                  onChange={(e) => {
+                    setRelayPubkey(e.target.value);
+                    if (e.target.value.startsWith('npub1')) {
+                      try {
+                        const { decode } = window.nostr;
+                        const decoded = decode(e.target.value);
+                        const hex = Buffer.from(decoded).toString('hex');
+                        setHexValue(hex);
+                        setShowHexHint(true);
+                      } catch (e) {
+                        console.error('Failed to decode npub:', e);
+                      }
+                    } else if (e.target.value.length === 64) {
+                      setHexValue(e.target.value);
+                      setShowHexHint(true);
+                    } else {
+                      setShowHexHint(false);
+                    }
+                  }}
                 />
                 {showHexHint && (
                   <div className="hex-hint">

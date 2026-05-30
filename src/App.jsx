@@ -35,30 +35,69 @@ function App() {
         script.type = 'module';
         script.src = '/relay-login/relay-login.js';
         
-        // Set up global handler for pubkey updates from the widget
-        window.onNostrLogin = (pubkey) => {
-          if (pubkey) {
-            setRelayPubkey(pubkey);
-            // If it's an npub, convert to hex
-            if (pubkey.startsWith('npub1')) {
-              try {
-                const { decode } = window.nostr;
-                const decoded = decode(pubkey);
-                const hex = Buffer.from(decoded).toString('hex');
-                setHexValue(hex);
-                setShowHexHint(true);
-              } catch (e) {
-                console.error('Failed to decode npub:', e);
-              }
-            } else {
-              setHexValue(pubkey);
-              setShowHexHint(true);
-            }
-          }
-        };
-
         script.onload = () => {
           console.log('Nostr login widget loaded');
+          
+          // Set up observer to watch for input changes
+          const inputField = document.getElementById('relayPubkey');
+          if (inputField) {
+            const observer = new MutationObserver((mutations) => {
+              mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'value') {
+                  const newValue = inputField.value;
+                  if (newValue && newValue !== relayPubkey) {
+                    setRelayPubkey(newValue);
+                    // If it's an npub, convert to hex
+                    if (newValue.startsWith('npub1')) {
+                      try {
+                        const { decode } = window.nostr;
+                        const decoded = decode(newValue);
+                        const hex = Buffer.from(decoded).toString('hex');
+                        setHexValue(hex);
+                        setShowHexHint(true);
+                      } catch (e) {
+                        console.error('Failed to decode npub:', e);
+                      }
+                    } else if (newValue.length === 64) {
+                      setHexValue(newValue);
+                      setShowHexHint(true);
+                    }
+                  }
+                }
+              });
+            });
+            
+            // Also watch for direct value changes via setInterval as fallback
+            const intervalId = setInterval(() => {
+              const currentValue = inputField.value;
+              if (currentValue && currentValue !== relayPubkey) {
+                setRelayPubkey(currentValue);
+                if (currentValue.startsWith('npub1')) {
+                  try {
+                    const { decode } = window.nostr;
+                    const decoded = decode(currentValue);
+                    const hex = Buffer.from(decoded).toString('hex');
+                    setHexValue(hex);
+                    setShowHexHint(true);
+                  } catch (e) {
+                    console.error('Failed to decode npub:', e);
+                  }
+                } else if (currentValue.length === 64) {
+                  setHexValue(currentValue);
+                  setShowHexHint(true);
+                }
+              }
+            }, 500);
+            
+            // Start observing the input for attribute changes
+            observer.observe(inputField, { attributes: true, attributeFilter: ['value'] });
+            
+            // Clean up after 10 seconds (widget should be loaded by then)
+            setTimeout(() => {
+              observer.disconnect();
+              clearInterval(intervalId);
+            }, 10000);
+          }
         };
 
         script.onerror = (e) => {
@@ -73,7 +112,7 @@ function App() {
       clearTimeout(timeoutId);
       window.onNostrLogin = null;
     };
-  }, []);
+  }, [relayPubkey]);
 
   const toggleTheme = () => {
     const newTheme = theme === 'dark' ? 'light' : 'dark';
